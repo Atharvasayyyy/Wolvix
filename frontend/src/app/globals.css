@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space);
+  --color-background: #05070b;
+  --color-foreground: #f7fbff;
+  --color-muted: #8b98aa;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-panel: rgba(13, 18, 28, 0.72);
+  --color-cyan: #35e5ff;
+  --color-lime: #9dff6a;
+  --color-rose: #ff477e;
+}
+
+:root {
+  color-scheme: dark;
+  --background: #05070b;
+  --foreground: #f7fbff;
+  --muted: #8b98aa;
+  --panel: rgba(13, 18, 28, 0.72);
+  --line: rgba(255, 255, 255, 0.12);
+  --accent: #35e5ff;
+  --accent-2: #9dff6a;
+  --accent-3: #ff477e;
+}
+
+:root.light {
+  color-scheme: light;
+  --background: #f5f7fb;
+  --foreground: #08111f;
+  --muted: #526071;
+  --panel: rgba(255, 255, 255, 0.84);
+  --line: rgba(8, 17, 31, 0.12);
+  --accent: #047bff;
+  --accent-2: #08875d;
+  --accent-3: #d52866;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--foreground);
+  background:
+    radial-gradient(circle at 50% -20%, rgba(53, 229, 255, 0.24), transparent 34rem),
+    linear-gradient(145deg, #05070b 0%, #0b1020 44%, #06120f 100%);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+.light body {
+  background:
+    radial-gradient(circle at 50% -20%, rgba(4, 123, 255, 0.18), transparent 34rem),
+    linear-gradient(145deg, #f5f7fb 0%, #eef5ff 48%, #edf8f3 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  color: #031018;
+  background: var(--accent);
+}
+
+.glass {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px);
+}
+
+.grid-lines {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 76%);
+}
+
+.focus-ring {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+}

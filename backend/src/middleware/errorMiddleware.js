@@ -1,0 +1,17 @@
+const AppError = require("../utils/AppError");
+
+const notFound = (req, res, next) => {
+  next(new AppError(`Route not found: ${req.originalUrl}`, 404));
+};
+
+const errorHandler = (err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).json({
+    success: false,
+    message: err.message || "Server error",
+    details: err.details || undefined,
+    stack: process.env.NODE_ENV === "production" ? undefined : err.stack
+  });
+};
+
+module.exports = { notFound, errorHandler };
