@@ -1,8 +1,8 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams } from "@/lib/router";
 import { PageHeading } from "@/components/shared/page-heading";
-import Link from "next/link";
+import { Link } from "@/lib/router";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -17,6 +17,8 @@ export default function WorkspacePage() {
   return (
     <>
       <PageHeading eyebrow="Workspace" title={team.data?.team?.name || projectId} description="Roadmap, roles, applications, tasks, milestones, and realtime-ready collaboration surfaces." action={<Button asChild><Link href="/launches">Open launch board</Link></Button>} />
+      {team.isLoading ? <p className="mb-4 text-sm text-white/48">Loading workspace...</p> : null}
+      {team.error ? <p className="mb-4 text-sm text-rose">{team.error.message}</p> : null}
       <div className="grid gap-4 lg:grid-cols-4">
         {board.map((column) => (
           <Card key={column} className="min-h-72">

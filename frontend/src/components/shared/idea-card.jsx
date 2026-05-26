@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/lib/router";
 import { ArrowUpRight, Bookmark, Flame } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

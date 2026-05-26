@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/auth-store";
 import { useMe } from "@/features/auth/hooks";
+import { RealtimeProvider } from "@/providers/realtime-provider";
 
 function SessionBootstrap() {
   const { token, hydrateFromStorage, setSession } = useAuthStore();
@@ -34,7 +35,7 @@ export function AppProviders({ children }) {
   return (
     <QueryClientProvider client={queryClient}>
       <SessionBootstrap />
-      {children}
+      <RealtimeProvider>{children}</RealtimeProvider>
     </QueryClientProvider>
   );
 }

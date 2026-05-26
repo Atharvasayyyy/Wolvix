@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/lib/router";
 import { PageHeading } from "@/components/shared/page-heading";
 import { Avatar } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";

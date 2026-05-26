@@ -1,4 +1,14 @@
 export * from "./api-client";
+export * from "./auth.service";
 export * from "./client";
+export * from "./comments.service";
+export * from "./ideas.service";
+export * from "./jobs.service";
+export * from "./launches.service";
+export * from "./leaderboard.service";
+export * from "./notifications.service";
 export * from "./profileService";
+export { profileApi } from "./profile.service";
+export * from "./projects.service";
+export * from "./uploads.service";
 export * from "./wolvix-api";

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/lib/router";
 import { Rocket } from "lucide-react";
 import { PageHeading } from "@/components/shared/page-heading";
 import { IdeaCard } from "@/components/shared/idea-card";

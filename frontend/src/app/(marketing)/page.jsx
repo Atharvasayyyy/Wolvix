@@ -1,15 +1,13 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import Link from "next/link";
+import { Link } from "@/lib/router";
 import { motion } from "framer-motion";
 import { ArrowRight, Flame, GitBranch, Rocket, Trophy, Users } from "lucide-react";
 import { TopNav } from "@/components/shared/nav";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-
-const HeroScene = dynamic(() => import("@/components/landing/hero-scene").then((mod) => mod.HeroScene), { ssr: false });
+import { HeroScene } from "@/components/landing/hero-scene";
 
 const sections = [
   ["Trending Ideas", "Signal-rich idea discovery with tags, votes, comments, and contributor demand.", Flame],

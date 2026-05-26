@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams } from "@/lib/router";
 import { useState } from "react";
 import { PageHeading } from "@/components/shared/page-heading";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,8 @@ export default function JobDetailPage() {
   return (
     <>
       <PageHeading eyebrow="Role" title={job?.title || id} description={job ? `${job.company} - ${job.location}` : "Contributor application detail."} />
+      {jobQuery.isLoading ? <p className="mb-4 text-sm text-white/48">Loading role...</p> : null}
+      {jobQuery.error ? <p className="mb-4 text-sm text-rose">{jobQuery.error.message}</p> : null}
       <Card>
         <form
           className="grid gap-4"

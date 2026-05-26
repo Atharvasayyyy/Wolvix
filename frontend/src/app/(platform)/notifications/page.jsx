@@ -1,18 +1,22 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/lib/router";
 import { PageHeading } from "@/components/shared/page-heading";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useMarkNotificationRead, useNotifications } from "@/features/wolvix-hooks";
+import { useNotificationStore } from "@/store/notification-store";
 
 export default function NotificationsPage() {
   const notifications = useNotifications();
   const markRead = useMarkNotificationRead();
+  const connected = useNotificationStore((state) => state.connected);
   return (
     <>
-      <PageHeading eyebrow="Realtime ready" title="Notifications" description="Mentions, applications, upvotes, comments, and future Socket.IO events surface here." />
+      <PageHeading eyebrow={connected ? "Realtime ready" : "Notifications"} title="Notifications" description="Mentions, applications, upvotes, comments, and future Socket.IO events surface here." />
       <Card className="grid gap-3">
+        {notifications.isLoading ? <p className="text-sm text-white/48">Loading notifications...</p> : null}
+        {notifications.error ? <p className="text-sm text-rose">{notifications.error.message}</p> : null}
         {(notifications.data?.notifications || []).map((item) => (
           <div key={item._id} className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/5 p-3 sm:flex-row sm:items-center">
             <div className="flex-1"><strong>{item.title || "Wolvix activity"}</strong><p className="text-sm text-white/56">{item.message}</p></div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams } from "@/lib/router";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -19,6 +19,8 @@ export default function ProfilePage() {
 
   return (
     <>
+      {profile.isLoading ? <p className="mb-4 text-sm text-white/48">Loading profile...</p> : null}
+      {profile.error ? <p className="mb-4 text-sm text-rose">{profile.error.message}</p> : null}
       <div className="glass mb-6 min-h-48 rounded-lg p-5">
         <div className="mt-20 flex flex-col gap-4 sm:flex-row sm:items-end">
           <Avatar name={user?.name || username} src={data?.profilePhoto} className="h-24 w-24 text-2xl" />

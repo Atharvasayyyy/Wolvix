@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link } from "@/lib/router";
+import { usePathname } from "@/lib/router";
 import { Award, Bell, Bot, Briefcase, Flame, Home, Lightbulb, Rocket, Settings, Users, X } from "lucide-react";
 import { TopNav } from "@/components/shared/nav";
 import { CommandPalette } from "@/components/shared/command-palette";

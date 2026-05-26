@@ -1,13 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link } from "@/lib/router";
+import { usePathname } from "@/lib/router";
 import { Bell, Command, Menu, Moon, Sun } from "lucide-react";
 import { Brand } from "@/components/shared/brand";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { useLogout } from "@/features/auth/hooks";
 import { useAuthStore } from "@/store/auth-store";
+import { useNotificationStore } from "@/store/notification-store";
 import { useUiStore } from "@/store/ui-store";
 import { cn } from "@/lib/utils";
 
@@ -26,6 +27,7 @@ export function TopNav() {
   const pathname = usePathname();
   const currentPath = pathname || "/";
   const user = useAuthStore((state) => state.user);
+  const unreadCount = useNotificationStore((state) => state.unreadCount);
   const logout = useLogout();
   const { theme, setTheme, setCommandOpen, setSidebarOpen } = useUiStore();
 
@@ -54,7 +56,10 @@ export function TopNav() {
           {user ? (
             <>
               <Button variant="ghost" size="sm" asChild aria-label="Notifications">
-                <Link href="/notifications"><Bell className="h-4 w-4" /></Link>
+                <Link href="/notifications" className="relative">
+                  <Bell className="h-4 w-4" />
+                  {unreadCount ? <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-rose" /> : null}
+                </Link>
               </Button>
               <Link href={`/profile/${user.username}`} aria-label="Profile"><Avatar name={user.name} className="h-9 w-9" /></Link>
               <Button variant="ghost" size="sm" onClick={logout}>Logout</Button>

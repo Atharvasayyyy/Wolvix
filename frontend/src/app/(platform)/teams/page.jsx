@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/lib/router";
 import { useState } from "react";
 import { PageHeading } from "@/components/shared/page-heading";
 import { Button } from "@/components/ui/button";
@@ -61,6 +61,8 @@ export default function TeamsPage() {
           </form>
         </Card>
         <section className="grid gap-4 lg:grid-cols-2">
+          {teams.isLoading ? <Card className="text-sm text-white/48">Loading teams...</Card> : null}
+          {teams.error ? <Card className="text-sm text-rose">{teams.error.message}</Card> : null}
           {(teams.data?.teams || []).map((team) => (
             <Card key={team._id || team.slug}>
               <div className="flex items-start justify-between gap-3">

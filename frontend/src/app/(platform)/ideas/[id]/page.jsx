@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { Link } from "@/lib/router";
+import { useParams } from "@/lib/router";
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
