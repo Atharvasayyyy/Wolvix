@@ -13,4 +13,8 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+commentSchema.index({ idea: 1, createdAt: 1 });
+commentSchema.index({ author: 1, createdAt: -1 });
+commentSchema.index({ parent: 1 });
+
 module.exports = mongoose.model("Comment", commentSchema);

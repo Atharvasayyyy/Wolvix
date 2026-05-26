@@ -30,4 +30,10 @@ const teamSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+teamSchema.index({ name: "text", description: "text", "openRoles.title": "text", "openRoles.skills": "text" });
+teamSchema.index({ status: 1, createdAt: -1 });
+teamSchema.index({ owner: 1, createdAt: -1 });
+teamSchema.index({ "members.user": 1 });
+teamSchema.index({ "openRoles.skills": 1 });
+
 module.exports = mongoose.model("Team", teamSchema);

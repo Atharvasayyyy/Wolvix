@@ -25,6 +25,7 @@ export const profileApi = {
 export const ideaApi = {
   list: (params) => unwrap(apiClient.get("/ideas", { params })),
   trending: () => unwrap(apiClient.get("/ideas/trending")),
+  recommended: (params) => unwrap(apiClient.get("/ideas/recommended", { params })),
   create: (payload) => unwrap(apiClient.post("/ideas", payload)),
   get: (slug) => unwrap(apiClient.get(`/ideas/${slug}`)),
   update: (slug, payload) => unwrap(apiClient.patch(`/ideas/${slug}`, payload)),

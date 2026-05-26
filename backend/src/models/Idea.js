@@ -23,5 +23,9 @@ const ideaSchema = new mongoose.Schema(
 );
 
 ideaSchema.index({ title: "text", summary: "text", problem: "text", solution: "text", tags: "text" });
+ideaSchema.index({ status: 1, createdAt: -1 });
+ideaSchema.index({ status: 1, category: 1, createdAt: -1 });
+ideaSchema.index({ tags: 1, status: 1 });
+ideaSchema.index({ author: 1, createdAt: -1 });
 
 module.exports = mongoose.model("Idea", ideaSchema);

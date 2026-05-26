@@ -1,8 +1,11 @@
 const Idea = require("../models/Idea");
+const Profile = require("../models/Profile");
 const Notification = require("../models/Notification");
 const AppError = require("../utils/AppError");
 const asyncHandler = require("../utils/asyncHandler");
 const createUniqueSlug = require("../utils/slug");
+const getPagination = require("../utils/pagination");
+const { ideaSignals, matchingScore, profileSignals } = require("../utils/recommendations");
 const { awardPoints, updateStreak } = require("../utils/reputation");
 
 exports.createIdea = asyncHandler(async (req, res) => {
@@ -18,8 +21,7 @@ exports.createIdea = asyncHandler(async (req, res) => {
 });
 
 exports.listIdeas = asyncHandler(async (req, res) => {
-  const page = Number(req.query.page || 1);
-  const limit = Math.min(Number(req.query.limit || 12), 50);
+  const { page, limit, skip } = getPagination(req.query, { limit: 12, maxLimit: 50 });
   const filter = { status: req.query.status || "published" };
 
   if (req.query.category) filter.category = req.query.category;
@@ -30,7 +32,7 @@ exports.listIdeas = asyncHandler(async (req, res) => {
     Idea.find(filter)
       .populate("author", "name username")
       .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
+      .skip(skip)
       .limit(limit),
     Idea.countDocuments(filter)
   ]);
@@ -39,14 +41,86 @@ exports.listIdeas = asyncHandler(async (req, res) => {
 });
 
 exports.trendingIdeas = asyncHandler(async (req, res) => {
+  const limit = Math.min(Number(req.query.limit || 20), 50);
   const ideas = await Idea.aggregate([
     { $match: { status: "published" } },
-    { $addFields: { score: { $add: [{ $size: "$upvotes" }, { $size: "$bookmarks" }, { $multiply: ["$viewCount", 0.1] }] } } },
+    {
+      $lookup: {
+        from: "comments",
+        localField: "_id",
+        foreignField: "idea",
+        as: "comments"
+      }
+    },
+    {
+      $addFields: {
+        upvoteCount: { $size: { $ifNull: ["$upvotes", []] } },
+        bookmarkCount: { $size: { $ifNull: ["$bookmarks", []] } },
+        commentCount: {
+          $size: {
+            $filter: {
+              input: "$comments",
+              as: "comment",
+              cond: { $eq: ["$$comment.isDeleted", false] }
+            }
+          }
+        },
+        contributorCount: { $size: { $ifNull: ["$collaborationNeeds", []] } },
+        ageHours: { $divide: [{ $subtract: ["$$NOW", "$createdAt"] }, 3600000] }
+      }
+    },
+    {
+      $addFields: {
+        freshness: { $divide: [1, { $add: [1, { $divide: ["$ageHours", 24] }] }] },
+        score: {
+          $add: [
+            { $multiply: ["$upvoteCount", 5] },
+            "$commentCount",
+            "$contributorCount",
+            "$bookmarkCount",
+            { $multiply: ["$viewCount", 0.1] }
+          ]
+        }
+      }
+    },
+    { $addFields: { score: { $add: ["$score", { $multiply: ["$freshness", 10] }] } } },
+    { $project: { comments: 0 } },
     { $sort: { score: -1, createdAt: -1 } },
-    { $limit: 20 }
+    { $limit: limit }
   ]);
 
   res.json({ success: true, ideas });
+});
+
+exports.recommendedIdeas = asyncHandler(async (req, res) => {
+  const { page, limit, skip } = getPagination(req.query, { limit: 12, maxLimit: 50 });
+  const profile = await Profile.findOne({ user: req.user._id }).lean();
+  const signals = profileSignals(profile);
+  const query = { status: "published" };
+
+  if (signals.length) {
+    query.$or = [
+      { tags: { $in: signals } },
+      { category: { $in: signals } },
+      { collaborationNeeds: { $in: signals } }
+    ];
+  }
+
+  const ideas = await Idea.find(query)
+    .populate("author", "name username")
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .lean();
+
+  const scored = ideas
+    .map((idea) => ({
+      ...idea,
+      recommendationScore: matchingScore(signals, ideaSignals(idea))
+    }))
+    .sort((a, b) => b.recommendationScore - a.recommendationScore || new Date(b.createdAt) - new Date(a.createdAt));
+
+  res.json({ success: true, ideas: scored, page, limit, total: scored.length, signals });
 });
 
 exports.getIdea = asyncHandler(async (req, res) => {

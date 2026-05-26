@@ -1,1 +1,1 @@
-export { useCreateIdea, useIdea, useIdeaAction, useIdeas, useTrendingIdeas } from "@/features/wolvix-hooks";
+export { useCreateIdea, useIdea, useIdeaAction, useIdeas, useRecommendedIdeas, useTrendingIdeas } from "@/features/wolvix-hooks";

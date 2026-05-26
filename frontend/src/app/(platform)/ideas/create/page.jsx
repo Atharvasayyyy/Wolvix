@@ -50,7 +50,7 @@ export default function CreateIdeaPage() {
           </div>
           <Input placeholder="Collaboration needs, comma separated" {...form.register("collaborationNeeds")} />
           {createIdea.error ? <p className="text-sm text-rose">{createIdea.error.message}</p> : null}
-          <Button disabled={createIdea.isPending}>{createIdea.isPending ? "Publishing..." : "Publish idea"}</Button>
+          <Button type="submit" disabled={createIdea.isPending}>{createIdea.isPending ? "Publishing..." : "Publish idea"}</Button>
         </form>
       </Card>
     </>

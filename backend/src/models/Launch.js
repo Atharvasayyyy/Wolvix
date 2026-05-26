@@ -27,4 +27,9 @@ const launchSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+launchSchema.index({ title: "text", tagline: "text", description: "text", category: "text" });
+launchSchema.index({ status: 1, createdAt: -1 });
+launchSchema.index({ owner: 1, createdAt: -1 });
+launchSchema.index({ category: 1, status: 1 });
+
 module.exports = mongoose.model("Launch", launchSchema);

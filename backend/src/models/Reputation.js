@@ -11,4 +11,8 @@ const reputationSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+reputationSchema.index({ user: 1, createdAt: -1 });
+reputationSchema.index({ action: 1, createdAt: -1 });
+reputationSchema.index({ sourceType: 1, sourceId: 1 });
+
 module.exports = mongoose.model("Reputation", reputationSchema);

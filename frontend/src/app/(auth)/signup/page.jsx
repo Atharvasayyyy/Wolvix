@@ -31,7 +31,7 @@ export default function SignupPage() {
           <Input placeholder="Email" {...form.register("email")} />
           <Input type="password" placeholder="Password" {...form.register("password")} />
           {register.error ? <p className="text-sm text-rose">{register.error.message}</p> : null}
-          <Button disabled={register.isPending}>{register.isPending ? "Creating..." : "Create account"}</Button>
+          <Button type="submit" disabled={register.isPending}>{register.isPending ? "Creating..." : "Create account"}</Button>
         </form>
         <p className="mt-5 text-sm text-white/54">Already building here? <Link href="/login" className="text-cyan">Login</Link></p>
       </Card>

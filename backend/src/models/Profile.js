@@ -48,6 +48,48 @@ const profileSchema = new mongoose.Schema(
         }
       ]
     },
+    professional: {
+      headline: String,
+      currentRole: String,
+      company: String,
+      profileStrengthScore: { type: Number, default: 0 },
+      portfolioReadinessScore: { type: Number, default: 0 },
+      startupReadinessScore: { type: Number, default: 0 },
+      hiringReadinessScore: { type: Number, default: 0 }
+    },
+    githubStats: {
+      username: String,
+      repositories: { type: Number, default: 0 },
+      stars: { type: Number, default: 0 },
+      commits: { type: Number, default: 0 },
+      contributionCount: { type: Number, default: 0 },
+      topLanguages: [String],
+      pinnedRepos: [
+        {
+          name: String,
+          url: String,
+          description: String,
+          stars: Number,
+          language: String
+        }
+      ],
+      builderScore: { type: Number, default: 0 },
+      openSourceScore: { type: Number, default: 0 },
+      technicalDepthScore: { type: Number, default: 0 }
+    },
+    leetcodeStats: {
+      username: String,
+      solvedProblems: { type: Number, default: 0 },
+      contestRating: { type: Number, default: 0 },
+      streak: { type: Number, default: 0 },
+      ranking: { type: Number, default: 0 },
+      badges: [String],
+      skillTags: [String],
+      dsaScore: { type: Number, default: 0 },
+      codingStrengthScore: { type: Number, default: 0 },
+      competitiveCodingLevel: { type: String, default: "beginner" }
+    },
+    startupInterests: [String],
     location: {
       city: String,
       state: String,
@@ -68,5 +110,11 @@ const profileSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+profileSchema.index({ user: 1 }, { unique: true });
+profileSchema.index({ reputationScore: -1 });
+profileSchema.index({ skills: 1 });
+profileSchema.index({ "githubStats.topLanguages": 1 });
+profileSchema.index({ startupInterests: 1 });
 
 module.exports = mongoose.model("Profile", profileSchema);

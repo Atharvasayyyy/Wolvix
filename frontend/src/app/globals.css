@@ -100,3 +100,227 @@ select {
 .focus-ring:focus-visible {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
 }
+
+.wolvix-landing {
+  font-family: Inter, var(--font-inter), system-ui, sans-serif;
+  background: #131313;
+}
+
+.wolvix-landing h1,
+.wolvix-landing h2,
+.wolvix-landing h3,
+.wolvix-landing .font-display {
+  font-family: Geist, var(--font-space), Inter, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.wolvix-glass {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(26, 26, 26, 0.7);
+  backdrop-filter: blur(20px);
+}
+
+.wolvix-gradient-text {
+  background: linear-gradient(to right, #aec6ff, #7928ca);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.wolvix-carbon {
+  background-image:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.04) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.04) 75%);
+  background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  background-size: 12px 12px;
+}
+
+.wolvix-float {
+  animation: wolvix-float 6s ease-in-out infinite;
+}
+
+.wolvix-marquee {
+  animation: wolvix-marquee 25s linear infinite;
+}
+
+.wolvix-scan::after {
+  position: absolute;
+  inset: 0 auto 0 -100%;
+  width: 50%;
+  content: "";
+  background: linear-gradient(to right, transparent, rgba(0, 112, 243, 0.4), transparent);
+  animation: wolvix-scan 2s linear infinite;
+}
+
+@keyframes wolvix-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes wolvix-marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes wolvix-scan {
+  100% {
+    left: 150%;
+  }
+}
+
+.profile-page {
+  font-family: Inter, var(--font-inter), system-ui, sans-serif;
+}
+
+.profile-page .font-display,
+.profile-page h1,
+.profile-page h2,
+.profile-page h3,
+.profile-page h4 {
+  font-family: Geist, var(--font-space), Inter, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.profile-glass {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(26, 26, 26, 0.7);
+  backdrop-filter: blur(12px);
+}
+
+.profile-bento-glow::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 0%, rgba(0, 112, 243, 0.1), transparent 70%);
+}
+
+.profile-contribution-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.profile-contribution-cell:hover {
+  transform: scale(1.2);
+  filter: brightness(1.5);
+}
+
+.profile-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.profile-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.profile-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #353535;
+}
+
+.explore-page,
+.hiring-page,
+.workspace-page {
+  font-family: Inter, var(--font-inter), system-ui, sans-serif;
+}
+
+.explore-page .font-display,
+.hiring-page .font-display,
+.workspace-page .font-display,
+.explore-page h1,
+.explore-page h2,
+.explore-page h3,
+.hiring-page h1,
+.hiring-page h2,
+.hiring-page h3,
+.workspace-page h1,
+.workspace-page h2,
+.workspace-page h3 {
+  font-family: Geist, var(--font-space), Inter, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.explore-glass,
+.hiring-glass,
+.workspace-glass {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(26, 26, 26, 0.7);
+  backdrop-filter: blur(12px);
+}
+
+.explore-glass,
+.hiring-glass {
+  transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.explore-glass:hover,
+.hiring-glass:hover {
+  border-color: rgba(174, 198, 255, 0.3);
+  background: rgba(30, 30, 30, 0.8);
+  box-shadow: 0 10px 30px -10px rgba(0, 112, 243, 0.15);
+}
+
+.explore-glass:hover {
+  transform: translateY(-2px);
+}
+
+.hiring-shimmer {
+  background-image: linear-gradient(90deg, #aec6ff, rgba(255, 255, 255, 0.5), #aec6ff);
+  background-size: 200% 100%;
+  animation: hiring-shimmer 2s linear infinite;
+}
+
+.workspace-active-glow {
+  box-shadow: 0 0 15px rgba(0, 112, 243, 0.15);
+}
+
+.workspace-kanban-column {
+  min-height: calc(100vh - 280px);
+}
+
+.workspace-scanning-line {
+  position: relative;
+}
+
+.workspace-scanning-line::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(174, 198, 255, 0.2), transparent);
+  animation: workspace-scan 2s linear infinite;
+}
+
+@keyframes hiring-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes workspace-scan {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}

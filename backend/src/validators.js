@@ -32,6 +32,36 @@ module.exports = {
       portfolio: Joi.string().uri().allow(""),
       other: Joi.array().items(Joi.object({ label: Joi.string(), url: Joi.string().uri() }))
     }),
+    professional: Joi.object({
+      headline: Joi.string().max(160).allow(""),
+      currentRole: Joi.string().max(120).allow(""),
+      company: Joi.string().max(120).allow("")
+    }),
+    githubStats: Joi.object({
+      username: Joi.string().max(80).allow(""),
+      repositories: Joi.number().min(0),
+      stars: Joi.number().min(0),
+      commits: Joi.number().min(0),
+      contributionCount: Joi.number().min(0),
+      topLanguages: Joi.array().items(Joi.string().max(40)).max(20),
+      pinnedRepos: Joi.array().items(Joi.object({
+        name: Joi.string().max(120),
+        url: Joi.string().uri().allow(""),
+        description: Joi.string().max(300).allow(""),
+        stars: Joi.number().min(0),
+        language: Joi.string().max(40).allow("")
+      })).max(12)
+    }),
+    leetcodeStats: Joi.object({
+      username: Joi.string().max(80).allow(""),
+      solvedProblems: Joi.number().min(0),
+      contestRating: Joi.number().min(0),
+      streak: Joi.number().min(0),
+      ranking: Joi.number().min(0),
+      badges: Joi.array().items(Joi.string().max(80)).max(30),
+      skillTags: Joi.array().items(Joi.string().max(40)).max(30)
+    }),
+    startupInterests: Joi.array().items(Joi.string().max(60)).max(30),
     location: Joi.object({
       city: Joi.string().allow(""),
       state: Joi.string().allow(""),
@@ -72,6 +102,10 @@ module.exports = {
     mentions: Joi.array().items(objectId).max(25)
   }),
 
+  commentUpdate: Joi.object({
+    body: Joi.string().min(1).max(3000).required()
+  }),
+
   teamCreate: Joi.object({
     idea: objectId,
     name: Joi.string().min(3).max(100).required(),
@@ -100,5 +134,58 @@ module.exports = {
 
   applicationDecision: Joi.object({
     status: Joi.string().valid("accepted", "rejected").required()
+  }),
+
+  jobCreate: Joi.object({
+    project: objectId,
+    launch: objectId,
+    title: Joi.string().min(3).max(140).required(),
+    company: Joi.string().min(2).max(120).required(),
+    location: Joi.string().max(120).default("Remote"),
+    type: Joi.string().max(60).default("Full-time"),
+    description: Joi.string().min(20).required(),
+    tags: Joi.array().items(Joi.string().max(50)).max(20),
+    status: Joi.string().valid("open", "closed", "archived")
+  }),
+
+  jobUpdate: Joi.object({
+    project: objectId,
+    launch: objectId,
+    title: Joi.string().min(3).max(140),
+    company: Joi.string().min(2).max(120),
+    location: Joi.string().max(120),
+    type: Joi.string().max(60),
+    description: Joi.string().min(20),
+    tags: Joi.array().items(Joi.string().max(50)).max(20),
+    status: Joi.string().valid("open", "closed", "archived")
+  }),
+
+  jobApplication: Joi.object({
+    portfolioUrl: Joi.string().uri().allow(""),
+    message: Joi.string().min(10).max(2000).required()
+  }),
+
+  launchCreate: Joi.object({
+    project: objectId,
+    title: Joi.string().min(3).max(140).required(),
+    tagline: Joi.string().min(10).max(180).required(),
+    description: Joi.string().max(3000).allow(""),
+    category: Joi.string().max(80).default("Startup"),
+    demoUrl: Joi.string().uri().allow(""),
+    screenshots: Joi.array().items(Joi.string().uri()).max(12),
+    changelog: Joi.array().items(Joi.string().max(500)).max(50),
+    status: Joi.string().valid("draft", "published")
+  }),
+
+  launchUpdate: Joi.object({
+    project: objectId,
+    title: Joi.string().min(3).max(140),
+    tagline: Joi.string().min(10).max(180),
+    description: Joi.string().max(3000).allow(""),
+    category: Joi.string().max(80),
+    demoUrl: Joi.string().uri().allow(""),
+    screenshots: Joi.array().items(Joi.string().uri()).max(12),
+    changelog: Joi.array().items(Joi.string().max(500)).max(50),
+    status: Joi.string().valid("draft", "published", "archived")
   })
 };

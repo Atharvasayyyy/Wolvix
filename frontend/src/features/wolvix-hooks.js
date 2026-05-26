@@ -5,6 +5,7 @@ import { aiApi, gamificationApi, ideaApi, jobsApi, launchApi, notificationApi, p
 
 export const useIdeas = (params) => useQuery({ queryKey: ["ideas", params], queryFn: () => ideaApi.list(params) });
 export const useTrendingIdeas = () => useQuery({ queryKey: ["ideas", "trending"], queryFn: ideaApi.trending });
+export const useRecommendedIdeas = (params, options = {}) => useQuery({ queryKey: ["ideas", "recommended", params], queryFn: () => ideaApi.recommended(params), ...options });
 export const useIdea = (slug) => useQuery({ queryKey: ["ideas", slug], queryFn: () => ideaApi.get(slug), enabled: Boolean(slug) });
 export const useIdeaComments = (slug) => useQuery({ queryKey: ["ideas", slug, "comments"], queryFn: () => ideaApi.comments(slug), enabled: Boolean(slug) });
 

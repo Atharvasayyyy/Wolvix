@@ -24,7 +24,7 @@ function LoginForm() {
         <Input placeholder="Email" {...form.register("email")} />
         <Input type="password" placeholder="Password" {...form.register("password")} />
         {login.error ? <p className="text-sm text-rose">{login.error.message}</p> : null}
-        <Button disabled={login.isPending}>{login.isPending ? "Signing in..." : "Login"}</Button>
+        <Button type="submit" disabled={login.isPending}>{login.isPending ? "Signing in..." : "Login"}</Button>
       </form>
       <div className="mt-5 flex justify-between text-sm text-white/54">
         <Link href="/forgot-password">Forgot password</Link>

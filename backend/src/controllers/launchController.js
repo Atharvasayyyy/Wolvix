@@ -2,12 +2,19 @@ const Launch = require("../models/Launch");
 const AppError = require("../utils/AppError");
 const asyncHandler = require("../utils/asyncHandler");
 const createUniqueSlug = require("../utils/slug");
+const getPagination = require("../utils/pagination");
 
 exports.listLaunches = asyncHandler(async (req, res) => {
-  const launches = await Launch.find({ status: req.query.status || "published" })
-    .populate("owner", "name username")
-    .sort({ createdAt: -1 });
-  res.json({ success: true, launches });
+  const { page, limit, skip } = getPagination(req.query, { limit: 12, maxLimit: 50 });
+  const filter = { status: req.query.status || "published" };
+  if (req.query.category) filter.category = req.query.category;
+
+  const [launches, total] = await Promise.all([
+    Launch.find(filter).populate("owner", "name username").sort({ createdAt: -1 }).skip(skip).limit(limit),
+    Launch.countDocuments(filter)
+  ]);
+
+  res.json({ success: true, launches, page, limit, total });
 });
 
 exports.createLaunch = asyncHandler(async (req, res) => {

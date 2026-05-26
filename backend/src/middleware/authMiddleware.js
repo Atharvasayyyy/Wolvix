@@ -9,6 +9,7 @@ const protect = asyncHandler(async (req, res, next) => {
 
   if (!token) throw new AppError("Login required", 401);
 
+  if (!process.env.JWT_SECRET) throw new AppError("JWT_SECRET is not configured", 500);
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
   const user = await User.findById(decoded.id).select("-password");
   if (!user || !user.isActive) throw new AppError("User account not found", 401);

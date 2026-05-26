@@ -48,7 +48,9 @@ exports.refreshToken = asyncHandler(async (req, res) => {
   const user = await User.findById(decoded.id);
   if (!user || !user.isActive) throw new AppError("User account not found", 401);
 
-  res.json({ success: true, token: signToken(user), refreshToken: signRefreshToken(user), user });
+  const safeUser = user.toObject();
+  delete safeUser.password;
+  res.json({ success: true, token: signToken(user), refreshToken: signRefreshToken(user), user: safeUser });
 });
 
 exports.logout = asyncHandler(async (req, res) => {

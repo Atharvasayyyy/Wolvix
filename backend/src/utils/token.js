@@ -1,12 +1,18 @@
 const jwt = require("jsonwebtoken");
 
+const getSecret = (name, fallback) => {
+  const secret = process.env[name] || fallback;
+  if (!secret) throw new Error(`${name} is required`);
+  return secret;
+};
+
 const signToken = (user) =>
   jwt.sign(
     {
       id: user._id,
       role: user.role
     },
-    process.env.JWT_SECRET,
+    getSecret("JWT_SECRET"),
     { expiresIn: process.env.JWT_EXPIRES_IN || "7d" }
   );
 
@@ -16,7 +22,7 @@ const signRefreshToken = (user) =>
       id: user._id,
       type: "refresh"
     },
-    process.env.JWT_REFRESH_SECRET || `${process.env.JWT_SECRET}-refresh`,
+    getSecret("JWT_REFRESH_SECRET", `${getSecret("JWT_SECRET")}-refresh`),
     { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || "30d" }
   );
 
